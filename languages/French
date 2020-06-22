@@ -477,7 +477,6 @@ local French = {
                 {"Open Console Key", "Console for more customization.",},
                 {"Dpi Scale", "Scale the UI size by this amount.",},
                 {"Open Settings Folder",},
-                {"Menu Language",},
             },
         },
     },
