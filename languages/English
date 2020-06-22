@@ -1,7 +1,5 @@
 local English = {
     v_loc = 1.00,
-    v_onl = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/English-version",
-
     {"Legitbot", "Ragebot", "Visuals", "Misc", "Settings",},
     {
         {"Aimbot", "Triggerbot", "Weapon", "Other", "Semirage",},
@@ -477,7 +475,6 @@ local English = {
                 {"Open Console Key", "Console for more customization.",},
                 {"Dpi Scale", "Scale the UI size by this amount.",},
                 {"Open Settings Folder",},
-                {"Menu Language",},
             },
         },
     },
