@@ -1,4 +1,4 @@
-local English = {
+local English = { -- you can edit the var name but edit it at the end as well
     v_loc = 1.00,
     {"Legitbot", "Ragebot", "Visuals", "Misc", "Settings",},
     {
