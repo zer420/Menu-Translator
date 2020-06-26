@@ -262,8 +262,8 @@ local English = {
                 [4] = {"Sounds", "Display audible sounds on screen.",},
             },
             [3] = {
-                [1] = {"Walls Color",},
-                [2] = {"Static Props Color",},
+                --[1] = {"Walls Color",},
+                --[2] = {"Static Props Color",},
                 [3] = {"Skybox", "Change how the sky looks.",},
             },
             [4] = {
@@ -328,8 +328,8 @@ local English = {
                 [4] = {"Seed", "Seed of texture generation.",},
                 [5] = {"StatTrak", "Kill counter of weapon.",},
                 [6] = {"Name", "Custom name of item.",},
-                [7] = {"Add",},
-                [8] = {"Remove",},
+                --[7] = {"Add",},
+                --[8] = {"Remove",},
             },
         },
         [7] = {
@@ -343,6 +343,7 @@ local English = {
                 [6] = {"Anti-Screenshot", "Hide visuals from screenshots.",},
                 [7] = {"Preserve Killfeed", "Preserve the killfeed.",},
             },
+            --[[
             [3] = {
                 [1] = {"No Render For Teammates",},
                 [2] = {"No Render For Enemies",},
@@ -359,7 +360,7 @@ local English = {
                 [6] = {"No Sky",},
                 [7] = {"No Fog",},
                 [8] = {"No Post Processing",},
-            },
+            }, ]]
         },
     },
     {
@@ -382,8 +383,8 @@ local English = {
             [5] = {
                 [1] = {"Bypass sv_pure", "Allow custom models and materials from csgo directory.",},
                 [2] = {"Bypass sv_cheats", "Bypass protected convars.",},
-                [3] = {"Unlock Steam Achievements",},
-                [4] = {"Show hidden ConVars",},
+                --[3] = {"Unlock Steam Achievements",},
+                --[4] = {"Show hidden ConVars",},
             },
             [6] = {
                 [1] = {"sv_maxunlag", "Configure server-side max backtracking factor.",},
@@ -441,6 +442,7 @@ local English = {
             {"Manage configurations",},
             [2] = {
                 [1] = {"Name", "Create or rename configuration.",},
+                --[[
                 [2] = {"Create",},
                 [3] = {"Rename",},
                 [4] = {"Load",},
@@ -450,12 +452,12 @@ local English = {
                 [8] = {"Export To Clipboard",},
                 [9] = {"Import From Clipboard",},
                 [10] = {"Set As Default",},
-                [11] = {"Refresh List",},
+                [11] = {"Refresh List",},]]
             },
         },
         [3] = {
             {"Manage scripts",},
-            [3] = {
+            --[[ [3] = {
                 [1] = {"Name", "Create or rename configuration.",},
                 [2] = {"Create",},
                 [3] = {"Rename",},
@@ -466,16 +468,16 @@ local English = {
                 [8] = {"Delete",},
                 [9] = {"Set As Autorun",},
                 [10] = {"Refresh List",},
-            },
+            },]]
         },
         [4] = {
             {"Manage Advanced Settings",},
-            [4] = {
+            --[[ [4] = {
                 [1] = {"Open Menu Key", "Bind for main menu toggle.",},
                 [2] = {"Open Console Key", "Console for more customization.",},
                 [3] = {"Dpi Scale", "Scale the UI size by this amount.",},
                 [4] = {"Open Settings Folder",},
-            },
+            }, ]]
         },
     },
 };
