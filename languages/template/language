@@ -1,3 +1,4 @@
+-- last update: 26/06/2020
 local CustomLanguage = { -- you can edit the var name but edit it at the end as well
     v_loc = 1.00, -- this needs to be synced with your version file
     {"Legitbot", "Ragebot", "Visuals", "Misc", "Settings",},
