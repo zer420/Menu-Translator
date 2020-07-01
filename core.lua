@@ -1,5 +1,5 @@
 local info = {
-    v_loc = 1.00,
+    v_loc = 1.01,
     v_onl = http.Get("https://raw.githubusercontent.com/zer420/Menu-Translator/master/version"),
     src = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/core.lua",
     dir = "zerlib\\",
@@ -7,105 +7,118 @@ local info = {
     name = GetScriptName(),
     updt_available = false,
 };
+
 UnloadScript(info.dir .. "reload.lua");
+file.Delete(info.dir .. "reload.lua");
 
 local function Updater()
     if info.v_loc < tonumber(info.v_onl) then
-        local reload = file.Open(info.dir .. "reload.lua", "w");
-        reload:Write([[local f=0;callbacks.Register("Draw",function()if f==0 then UnloadScript("]]..info.name..[[");elseif f==1 then LoadScript("]]..info.name..[[");end;f=f+1;end);]]);
-        reload:Close();
-        local file = file.Open(info.name, "w"); file:Write(http.Get(info.src)); file:Close(); LoadScript(info.dir .. "reload.lua");
-end; end; Updater();
+        file.Write(info.dir .. "reload.lua", [[local f=0;callbacks.Register("Draw",function()if f==0 then UnloadScript("]]..info.name..[[");elseif f==1 then LoadScript("]]..info.name..[[");end;f=f+1;end);]])
+        file.Write(info.name, http.Get(info.src)); LoadScript(info.dir .. "reload.lua");
+end; end; Updater(); --auto-updater + auto-reloader
 
 local db = {
-    prev = "English",
-    lang_name = {"English", "中文",}, --"Français", "Español", "Suomi", "Português", "Romana", "Deutsch", "Italiano",
+    prev = 1,
+    lang_name = {"English", "中文",}, --"Русский", "Français", "Español", "Suomi", "Português", "Romana", "Deutsch", "Italiano",
     lang_checked = {false, false, false,},
+    ui = {[1] = {},[2] = {},[3] = {},[4] = {},[5] = {},[6] = {},}, --used to store og ui
     lang = {
         ["English"] = {},
         ["中文"] = {},
-        ["Français"] = {},
+        --["Français"] = {},
     },
     src = {
         [1] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/English",
-        [2] = "https://aimware.coding.net/p/AIMWARE_Chinese_Lua/d/AIMWARE_Chinese_Lua/git/raw/master/MenuTranslator/Chinese.lua",
-        [3] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/French",
+        [2] = "https://aimware.coding.net/p/AIMWARE_Chinese_Lua/d/AIMWARE_Chinese_Lua/git/raw/master/MenuTranslator/Chinese",
+        --[3] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/French",
     },
     v_onl = {
         [1] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/English-version",
         [2] = "https://aimware.coding.net/p/AIMWARE_Chinese_Lua/d/AIMWARE_Chinese_Lua/git/raw/master/MenuTranslator/version",
-        [3] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/French-version",
+        --[3] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/French-version",
     },
-};
+}; --database with every language inside
+
+local ui_ref = gui.Reference("Settings", "Advanced", "Manage advanced settings");
+local ui_select = gui.Combobox(ui_ref, "language", "Menu Language", unpack(db.lang_name)); ui_select:SetDescription("Translate the menu into various languages.");
+local warning = gui.Text(ui_ref, ""); warning:SetInvisible(true);
+--user interface
+local function UnloadScripts(f)
+    if f ~= info.name then
+        UnloadScript(f:match(".*lua$") ~= nil and f or "");
+    end;
+end;
+file.Enumerate(UnloadScripts); --unloads all your other luas
+
+local function GetUIChildren(obj, level)
+    if obj:GetName() ~= "" then
+        table.insert(db.ui[level], obj);
+    end;
+	for child in obj:Children() do
+		GetUIChildren(child, level + 1);
+    end;
+end;
+GetUIChildren(gui.Reference("Menu"), 0); --credits to polak, gets every ui elements with their level of parent
 
 local function LanguageUpdater(i)
+
     local curr_dir = (info.dir .. info.sc_dir .. db.lang_name[i] .. ".lua");
-    local curr_db = RunScript(curr_dir);
+    local curr_db = db.lang[db.lang_name[i]];
+
     if db.lang_checked[i] == false then
-        if curr_db == nil then
+        curr_db = RunScript(curr_dir);
+        info.updt_available = false;
+        if curr_db.v_loc == nil then
             info.updt_available = true;
-        elseif curr_db.v_loc < tonumber(http.Get(db.v_onl[i])) then
+        elseif curr_db.v_loc < tonumber(http.Get(db.v_onl[i])) then --checks for update
             info.updt_available = true;
         end;
         if info.updt_available == true then
-        local file = file.Open(curr_dir, "w");
-        file:Write(http.Get(db.src[i])); file:Close(); curr_db = RunScript(curr_dir);
+            file.Write(curr_dir, http.Get(db.src[i])); curr_db = RunScript(curr_dir); --downloads it
         end;
-        db.lang_checked[i] = true;
+        db.lang_checked[i] = true;        
     end;
     db.lang[db.lang_name[i]] = curr_db;
-end; LanguageUpdater(1);
-
-local ui_select = gui.Combobox(gui.Reference("Settings", "Advanced", "Manage advanced settings"), "language", "Menu Language", unpack(db.lang_name));
-
-local function SetLanguage(h)
-    LanguageUpdater(h);
-    for i = 1, #db.lang[db.lang_name[1]][1] do --Tab
-        for j = 1, #db.lang[db.lang_name[1]][(i + 1)][1] do --Subtab
-            if db.lang[db.lang_name[1]][(i + 1)][(j + 1)] ~= nil then
-                for k = 1, #db.lang[db.lang_name[1]][(i + 1)][(j + 1)][1] do --Groupbox
-                    if db.lang[db.lang_name[1]][(i + 1)][(j + 1)][(k + 1)] ~= nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)] ~= nil then
-                        for l, m in pairs(db.lang[db.lang_name[1]][(i + 1)][(j + 1)][(k + 1)]) do --Control
-                            if m ~= nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l] ~= nil then
-                                if m[5] == nil and m[6] == nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][5] == nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][6] == nil then --Cannot acces inside of some tabs
-                                    if m[1] ~= nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][1] ~= nil then    
-                                            --print(db.lang[db.prev][1][i], db.lang[db.prev][(i + 1)][1][j], db.lang[db.prev][(i + 1)][(j + 1)][1][k], db.lang[db.prev][(i + 1)][(j + 1)][(k + 1)][l][1])
-                                        local curr_ref = gui.Reference(db.lang[db.prev][1][i], db.lang[db.prev][(i + 1)][1][j], db.lang[db.prev][(i + 1)][(j + 1)][1][k], db.lang[db.prev][(i + 1)][(j + 1)][(k + 1)][l][1]);   
-                                        if m[4] ~= nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][4] ~= nil then
-                                            for n = 1, #m[4] do --Multibox
-                                                gui.Reference(db.lang[db.prev][1][i], db.lang[db.prev][(i + 1)][1][j], db.lang[db.prev][(i + 1)][(j + 1)][1][k], db.lang[db.prev][(i + 1)][(j + 1)][(k + 1)][l][1], db.lang[db.prev][(i + 1)][(j + 1)][(k + 1)][l][4][n]):SetName(db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][4][n]);            
-                                            end;
-                                        end;
-                                        if m[3] ~= nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][3] ~= nil then
-                                            curr_ref:SetOptions(unpack(db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][3]));
-                                        end;
-                                        if m[2] ~= nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][2] ~= nil then                                
-                                            curr_ref:SetDescription(db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][2]);
-                                        end;
-                                        if m[1] ~= nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][2] ~= nil then
-                                            curr_ref:SetName(db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][1]);
-                                        end;
-                                    else
-                                        if m[2] ~= nil and db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][2] ~= nil then
-                                            gui.Reference(db.lang[db.prev][1][i], db.lang[db.prev][(i + 1)][1][j], db.lang[db.prev][(i + 1)][(j + 1)][1][k]):SetDescription(db.lang[db.lang_name[h]][(i + 1)][(j + 1)][(k + 1)][l][2]);
-                                        end;
-                                    end;
-                                end;
-                            end;           
-                        end;
-                        gui.Reference(db.lang[db.prev][1][i], db.lang[db.prev][(i + 1)][1][j], db.lang[db.prev][(i + 1)][(j + 1)][1][k]):SetName(db.lang[db.lang_name[h]][(i + 1)][(j + 1)][1][k]);
-                    end;                   
-                end;
-                gui.Reference(db.lang[db.prev][1][i], db.lang[db.prev][(i + 1)][1][j]):SetName(db.lang[db.lang_name[h]][(i + 1)][1][j]);
-            end;
+    for j = 1, #db.ui do
+        if #db.ui[j] ~= #curr_db[j] then --checks if outdated
+            return false;
         end;
-    gui.Reference(db.lang[db.prev][1][i]):SetName(db.lang[db.lang_name[h]][1][i]);
     end;
-    db.prev = db.lang_name[h];
+    return true;
 end;
 
+local function EntryIsValid(i, j, k, type)
+    if db.lang[db.lang_name[i]][j][k] == nil or db.ui[j][k] == nil then return false; end;
+    if type == 1 then return db.lang[db.lang_name[i]][j][k][type] ~= nil;
+    elseif db.lang[db.lang_name[i]][j][k][2] == nil then return false; end;
+    return db.lang[db.lang_name[i]][j][k][2][type - 1] ~= nil;
+end; --double checks if anything is wrong
+
+local function SetLanguage(i)    
+    if LanguageUpdater(i) == true then
+        warning:SetInvisible(true);
+        for j = 1, #db.ui do -- loops thru each level of ui
+            for k, obj in pairs(db.ui[j]) do -- loops thru each elements
+                if EntryIsValid(i, j, k, 1) == true then
+                    obj:SetName(db.lang[db.lang_name[i]][j][k][1]);
+                end;
+                if EntryIsValid(i, j, k, 2) == true then
+                    obj:SetDescription(db.lang[db.lang_name[i]][j][k][2][1]);
+                end;
+                if EntryIsValid(i, j, k, 3) == true then
+                    obj:SetOptions(unpack(db.lang[db.lang_name[i]][j][k][2][2]));
+                end;
+            end;
+        end;
+    else
+        warning:SetInvisible(false); warning:SetText(db.lang[db.lang_name[i]].otdt_msg); -- draws outdated text
+    end;
+    db.prev = i;
+end;
+SetLanguage(1);
+
 callbacks.Register("Draw", function()
-    if db.lang_name[(ui_select:GetValue() + 1)] ~= db.prev then
+    if (ui_select:GetValue() + 1) ~= db.prev then
         SetLanguage(ui_select:GetValue() + 1);        
     end;
 end);
