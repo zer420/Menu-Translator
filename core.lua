@@ -1,5 +1,5 @@
 local info = {
-    v_loc = 1.01,
+    v_loc = 1.02,
     v_onl = http.Get("https://raw.githubusercontent.com/zer420/Menu-Translator/master/version"),
     src = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/core.lua",
     dir = "zerlib\\",
@@ -21,7 +21,7 @@ local db = {
     prev = 1,
     lang_name = {"English", "中文",}, --"Русский", "Français", "Español", "Suomi", "Português", "Romana", "Deutsch", "Italiano",
     lang_checked = {false, false, false,},
-    ui = {[1] = {},[2] = {},[3] = {},[4] = {},[5] = {},[6] = {},}, --used to store og ui
+    ui = {[1] = {},[2] = {},[3] = {},[4] = {},[5] = {},[6] = {},[7] = {},}, --used to store og ui
     lang = {
         ["English"] = {},
         ["中文"] = {},
