@@ -1,7 +1,7 @@
 -- last update: 26/07/2020
-local English = { -- you can edit the var name but edit it at the end as well
+local CustomLanguage = { -- you can edit the var name but edit it at the end as well
     v_loc = 1.00, -- this needs to be synced with your version file, make it bigger at each modification
-    otdt_msg = "Waring: English is outdated, wait for an update.",
+    otdt_msg = "Waring: CustomLanguage is outdated.\nPlease wait for Author to update it.",
     [1] = {
         [1] = {"Legitbot",},
         [2] = {"Ragebot",},
@@ -837,4 +837,4 @@ local English = { -- you can edit the var name but edit it at the end as well
     },
     
 };
-return(English);
+return(CustomLanguage);
