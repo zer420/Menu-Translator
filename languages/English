@@ -1,6 +1,6 @@
 local English = {
     v_loc = 1.02,
-    otdt_msg = "Waring: English is outdated, wait for an update.",
+    otdt_msg = "Waring: English is outdated.\nPlease wait for Zerdos to update it.",
     [1] = {
         [1] = {"Legitbot",},
         [2] = {"Ragebot",},
