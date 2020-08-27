@@ -1,5 +1,5 @@
 local info = {
-    v_loc = 1.02,
+    v_loc = 1.03,
     v_onl = http.Get("https://raw.githubusercontent.com/zer420/Menu-Translator/master/version"),
     src = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/core.lua",
     dir = "zerlib\\",
@@ -68,7 +68,9 @@ local function LanguageUpdater(i)
     if db.lang_checked[i] == false then
         curr_db = RunScript(curr_dir);
         info.updt_available = false;
-        if curr_db.v_loc == nil then
+        if curr_db == nil then
+            info.updt_available = true;
+        elseif curr_db.v_loc == nil then
             info.updt_available = true;
         elseif curr_db.v_loc < tonumber(http.Get(db.v_onl[i])) then --checks for update
             info.updt_available = true;
