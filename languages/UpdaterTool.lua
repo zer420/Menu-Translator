@@ -989,7 +989,7 @@ local function CheckError()
 				if bMissing == false then
 					print(string.format("\n[%s] Missing data format: [level]: name\t\tbetween {control1 [line] | control2 [line]}\n\tNote: The position may be inaccurate for repeated control name (eg. \"Enable\").\n", info.script_name));
 				end;
-				print(string.format("\t[%d]: %s%s{%s [%d] | %s [%d]}", i, name, GetSpacing(name), og_ui[i][j - 1], GetLine(i, j - 1), og_ui[i][j + 1], GetLine(i, j + 1)));
+				print(string.format("\t[%d]: %s%s{%s [%d] | %s [%d]}", i, name, GetSpacing(name), og_ui[i][j - 1], GetLine(i, j - 1), og_ui[i][j + 1], GetLine(i, j)));
 				bMissing = true;
 			end;
 		end;
