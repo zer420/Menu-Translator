@@ -1,11 +1,15 @@
 local info = {
-  lang_name = "English",
-  lang_version = 1.04,
+    lang_name = "English",
+    lang_version = 1.04,
 	lang_otdt_msg = "Waring: English is outdated.\\nPlease wait for Zerdos to update it.",
 
 	output_path = "zerlib\\menutrsltr\\output.lua",
+
+	v_loc = 1.00,
+	v_onl = http.Get("https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/UpdaterTool_version"),
+	src = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/UpdaterTool.lua",
 	script_name = GetScriptName(),
-	data_start_line = 20,
+	data_start_line = 24,
 };
 
 --[[	How to use: do not change what's inside ["en"], only translate after it.
@@ -910,6 +914,12 @@ local lang_data = {
 	},	
 };
 
+local function Updater()
+    if info.v_loc < tonumber(info.v_onl) then
+        file.Write("zerlib\\reload.lua", [[local f=0;callbacks.Register("Draw",function()if f==0 then UnloadScript("]]..info.script_name..[[");elseif f==1 then LoadScript("]]..info.script_name..[[");end;f=f+1;end);]])
+        file.Write(info.script_name, http.Get(info.src)); LoadScript("zerlib\\reload.lua");
+end; end; Updater();
+
 local ui_select = gui.Combobox(gui.Reference("Settings", "Advanced", "Manage advanced settings"), "language", "Menu Language", info.lang_name);
 
 local og_ui = {[1] = {}, [2] = {}, [3] = {}, [4] = {}, [5] = {}, [6] = {}, [7] = {},};
@@ -941,7 +951,7 @@ gui.Command("clear");
 local bOutdated = false;
 
 local function CheckError()
-	print(string.format("[%s] Checking for outdated data...", info.script_name));
+	print(string.format("[%s] Checking for outdated data...\n\tNote: Make sure that you haven't loaded any luas before, not even Menu Translator. If so please restart the game.", info.script_name));
 
 	local bUnused, tUnused = false, {[1] = {}, [2] = {}, [3] = {}, [4] = {}, [5] = {}, [6] = {}, [7] = {},};
 	for i = 1, #lang_data do
@@ -956,7 +966,7 @@ local function CheckError()
 			end;
 			if isValid == false then
 				if bUnused == false then
-					print(string.format("\n[%s] Unused data format: [line]: name\n", info.script_name));
+					print(string.format("\n[%s] Unused data format: [line]: name\n\tNote: The position may be inaccurate for repeated control name (eg. \"Enable\").\n", info.script_name));
 				end;
 				print(string.format("\t[%d]: %s", GetLine(i, j) , name));
 				bUnused = true;
@@ -977,7 +987,7 @@ local function CheckError()
 			end;
 			if isValid == false then
 				if bMissing == false then
-					print(string.format("\n[%s] Missing data format: [level]: name, {control after [line] | control before [line]}\n\tNote: The position may be inaccurate for repeated control name (eg. \"Enable\").\n", info.script_name));
+					print(string.format("\n[%s] Missing data format: [level]: name\t\tbetween {control1 [line] | control2 [line]}\n\tNote: The position may be inaccurate for repeated control name (eg. \"Enable\").\n", info.script_name));
 				end;
 				print(string.format("\t[%d]: %s%s{%s [%d] | %s [%d]}", i, name, GetSpacing(name), og_ui[i][j - 1], GetLine(i, j - 1), og_ui[i][j + 1], GetLine(i, j + 1)));
 				bMissing = true;
