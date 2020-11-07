@@ -1,5 +1,5 @@
 local info = {
-    v_loc = 1.03,
+    v_loc = 1.04,
     v_onl = http.Get("https://raw.githubusercontent.com/zer420/Menu-Translator/master/version"),
     src = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/core.lua",
     dir = "zerlib\\",
@@ -25,17 +25,14 @@ local db = {
     lang = {
         ["English"] = {},
         ["中文"] = {},
-        --["Français"] = {},
     },
     src = {
         [1] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/English",
-        [2] = "https://aimware.coding.net/p/AIMWARE_Chinese_Lua/d/AIMWARE_Chinese_Lua/git/raw/master/MenuTranslator/Chinese",
-        --[3] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/French",
+        [2] = "https://raw.githubusercontent.com/AimwarePasteLua/Chineseware/master/%E4%B8%AD%E6%96%87.lua",
     },
     v_onl = {
         [1] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/English-version",
-        [2] = "https://aimware.coding.net/p/AIMWARE_Chinese_Lua/d/AIMWARE_Chinese_Lua/git/raw/master/MenuTranslator/version",
-        --[3] = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/French-version",
+        [2] = "https://raw.githubusercontent.com/AimwarePasteLua/Chineseware/master/version",
     },
 }; --database with every language inside
 
