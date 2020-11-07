@@ -1,5 +1,5 @@
 local English = {
-	v_loc = 1.05,
+	v_loc = 1.06,
 	otdt_msg = "Waring: English is outdated.\nPlease wait for an update.",
 	[1] = {
 		[1] = {[1] = "Legitbot",},
@@ -165,7 +165,7 @@ local English = {
 		[48] = {[1] = "Shift On Shot", [2] = {[1] = "Prevent your on shot model from getting hit.",},},
 		[49] = {[1] = "Anti-Aligne Type", [2] = {[1] = "", [2] = {[1] = "Lowerbody",[2] = "Micromovement",},},},
 		[50] = {[1] = "Auto Direction", [2] = {[1] = "Set anit-aim based on enemy position.",},},
-		[51] = {[1] = "Anti-Resolver",},
+		[51] = {[1] = "Anti-Resolver", [2] = {[1] = "Makes continuous shots harder to hit.",},},
 		[52] = {[1] = "Pitch Angle", [2] = {[2] = {[1] = "Off",[2] = "Down",[3] = "Up",[4] = "Zero",},},},
 		[53] = {[1] = "Fake Expose Toggle", [2] = {[1] = "Flick fake head on edge when enabled.",},},
 		[54] = {[1] = "Fake Expose Type", [2] = {[1] = "Method of fake expose", [2] = {[1] = "1s",[2] = "1.5s",},},},
