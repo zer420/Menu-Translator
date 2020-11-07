@@ -1,15 +1,17 @@
 local info = {
+
+	--[[		    ↓                                 ]]
     lang_name = "English",
-    lang_version = 1.04,
-	lang_otdt_msg = "Waring: English is outdated.\\nPlease wait for Zerdos to update it.",
+    lang_version = 1.06,
+	lang_otdt_msg = "Waring: English is outdated.\\nPlease wait for an update.",
+	--[[ change this ↑ but not the rest of this table ]]
 
 	output_path = "zerlib\\menutrsltr\\output.lua",
-
 	v_loc = 1.00,
 	v_onl = http.Get("https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/UpdaterTool_version"),
 	src = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/languages/UpdaterTool.lua",
 	script_name = GetScriptName(),
-	data_start_line = 24,
+	data_start_line = 27,
 };
 
 --[[	How to use: do not change what's inside ["en"], only translate after it.
@@ -19,7 +21,7 @@ local info = {
 	Will become:
 	{["en"] = "Auto Direction Mode", [1] = "自动方向模式", [2] = {[1] = "基于边缘的解析器。", [2] = {[1] = "偷看假",[2] = "偷看真实",},},},
 
-If the table is outdated, what needs to be changed will be written in the console to update it easily.	]]
+If the table is outdated, what needs to be changed will be printed in the console to update it easily.	]]
 
 local lang_data = {
 	[1] = {
@@ -89,8 +91,9 @@ local lang_data = {
 		{["en"] = "Base Direction", [1] = "Base Direction",},
 		{["en"] = "Left Direction", [1] = "Left Direction",},
 		{["en"] = "Right Direction", [1] = "Right Direction",},
-		{["en"] = "Anti-Aim", [1] = "Anti-Aim",},
 		{["en"] = "Extra", [1] = "Extra",},
+		{["en"] = "Condition", [1] = "Condition",},
+		{["en"] = "Advanced", [1] = "Advanced",},
 		{["en"] = "Friendly", [1] = "Friendly",},
 		{["en"] = "Enemy", [1] = "Enemy",},
 		{["en"] = "Weapon", [1] = "Weapon",},
@@ -176,29 +179,19 @@ local lang_data = {
 		{["en"] = "Max Processing Time", [1] = "Max Processing Time", [2] = {[1] = "Lower this value to maintain better FPS.",},},
 		{["en"] = "Precise Hitscan", [1] = "Precise Hitscan", [2] = {[1] = "Enable additional checks when selecting hit points.",},},
 		{["en"] = "Predictive", [1] = "Predictive", [2] = {[1] = "Wait for higher damage spot when peeking.",},},
-		{["en"] = "Enable", [1] = "Enable",},
-		{["en"] = "Pitch Angle", [1] = "Pitch Angle", [2] = {[2] = {[1] = "Off",[2] = "Down",[3] = "Up",[4] = "Zero",},},},
-		{["en"] = "Real Yaw", [1] = "Real Yaw", [2] = {[2] = {[1] = "Off",[2] = "Backward",[3] = "Spinbot",},},},
-		{["en"] = "Real Yaw Angle", [1] = "Real Yaw Angle",},
-		{["en"] = "LBY Angle", [1] = "LBY Angle",},
-		{["en"] = "LBY Extended", [1] = "LBY Extended",},
-		{["en"] = "Spinbot Speed", [1] = "Spinbot Speed",},
-		{["en"] = "Fake Yaw", [1] = "Fake Yaw", [2] = {[2] = {[1] = "Off",[2] = "Default",[3] = "Opposite",[4] = "Jitter",[5] = "Opposite Jitter",},},},
-		{["en"] = "Maximum Desync Left", [1] = "Maximum Desync Left",},
-		{["en"] = "Maximum Desync Right", [1] = "Maximum Desync Right",},
-		{["en"] = "Maximum Desync", [1] = "Maximum Desync",},
-		{["en"] = "At Targets", [1] = "At Targets", [2] = {[1] = "Auto rotate towards enemies to hide head.", [2] = {[1] = "Off",[2] = "FOV Based",[3] = "Distance Based",},},},
-		{["en"] = "Auto Direction", [1] = "Auto Direction",},
-		{["en"] = "Auto Direction Mode", [1] = "Auto Direction Mode", [2] = {[1] = "Counter edge-based resolvers.", [2] = {[1] = "Peek Fake",[2] = "Peek Real",},},},
 		{["en"] = "Fake Duck", [1] = "Fake Duck", [2] = {[1] = "Allows you to shoot higher while crouching.",},},
+		{["en"] = "Fake Duck Style", [1] = "Fake Duck Style", [2] = {[2] = {[1] = "Duck",[2] = "Unduck",},},},
 		{["en"] = "Static Legs", [1] = "Static Legs", [2] = {[1] = "Makes your legs static when slow walking.",},},
-		{["en"] = "Conditions", [1] = "Conditions",},
+		{["en"] = "Disable On Use", [1] = "Disable On Use", [2] = {[1] = "Disable anti-aim when pressing the Use key.",},},
+		{["en"] = "Disable On Knife", [1] = "Disable On Knife", [2] = {[1] = "Disable anti-aim when holding knife.",},},
+		{["en"] = "Disable On Grenade", [1] = "Disable On Grenade", [2] = {[1] = "Disable anti-aim when holding a grenade.",},},
 		{["en"] = "Shift On Shot", [1] = "Shift On Shot", [2] = {[1] = "Prevent your on shot model from getting hit.",},},
+		{["en"] = "Anti-Align Type", [1] = "Anti-Aligne Type", [2] = {[1] = "", [2] = {[1] = "Lowerbody",[2] = "Micromovement",},},},
+		{["en"] = "Auto Direction", [1] = "Auto Direction", [2] = {[1] = "Set anit-aim based on enemy position.",},},
+		{["en"] = "Anti-Resolver", [1] = "Anti-Resolver", [2] = {[1] = "Improve accuracy when shooting at enemy anti-aim.",},},
+		{["en"] = "Pitch Angle", [1] = "Pitch Angle", [2] = {[2] = {[1] = "Off",[2] = "Down",[3] = "Up",[4] = "Zero",},},},
 		{["en"] = "Fake Expose Toggle", [1] = "Fake Expose Toggle", [2] = {[1] = "Flick fake head on edge when enabled.",},},
 		{["en"] = "Fake Expose Type", [1] = "Fake Expose Type", [2] = {[1] = "Method of fake expose", [2] = {[1] = "1s",[2] = "1.5s",},},},
-		{["en"] = "Manual Anti-Aim", [1] = "Manual Anti-Aim", [2] = {[1] = "Use your mouse to manually set the Yaw.",},},
-		{["en"] = "Anti-Resolver", [1] = "Anti-Resolver",},
-		{["en"] = "Advanced Configuration", [1] = "Advanced Configuration", [2] = {[1] = "Enable advanced options, not recommended for new users.",},},
 		{["en"] = "Box", [1] = "Box", [2] = {[1] = "Draw 2D box around entity.", [2] = {[1] = "Off",[2] = "Outlined",[3] = "Normal",},},},
 		{["en"] = "Box Precision", [1] = "Box Precision", [2] = {[1] = "Match 2D box around entity.",},},
 		{["en"] = "Name", [1] = "Name", [2] = {[1] = "Draw entity name.",},},
@@ -358,7 +351,7 @@ local lang_data = {
 		{["en"] = "On Key", [1] = "On Key", [2] = {[1] = "Enable lag only when holding this key.",},},
 		{["en"] = "Type", [1] = "Type", [2] = {[1] = "Type or \\\"patern\\\" of lag", [2] = {[1] = "Normal",[2] = "Adaptive",[3] = "Random",[4] = "Switch",},},},
 		{["en"] = "Factor", [1] = "Factor", [2] = {[1] = "How many commands will be choked.",},},
-		{["en"] = "Conditions", [1] = "Conditions", [2] = {[1] = "Configure fakelag options.",},},
+		{["en"] = "Conditions", [1] = "Conditions",},
 		{["en"] = "Enable", [1] = "Enable", [2] = {[1] = "Enable latency modifier.",},},
 		{["en"] = "On Key", [1] = "On Key", [2] = {[1] = "Increase latency only when holding this key.",},},
 		{["en"] = "Amount", [1] = "Amount", [2] = {[1] = "Absolute latency to achieve.",},},
@@ -749,9 +742,8 @@ local lang_data = {
 		{["en"] = "Rotation Offset", [1] = "Rotation Offset",},
 		{["en"] = "LBY Offset", [1] = "LBY Offset",},
 		{["en"] = "Spinbot Speed", [1] = "Spinbot Speed",},
-		{["en"] = "Disable On Use", [1] = "Disable On Use", [2] = {[1] = "Disable anti-aim when pressing the Use key.",},},
-		{["en"] = "Disable On Knife", [1] = "Disable On Knife", [2] = {[1] = "Disable anti-aim when holding knife.",},},
-		{["en"] = "Disable On Grenade", [1] = "Disable On Grenade", [2] = {[1] = "Disable anti-aim when holding a grenade.",},},
+		{["en"] = "At Edges", [1] = "At Edges", [2] = {[1] = "Apply left/right direction based on nearby walls.",},},
+		{["en"] = "At Targets", [1] = "At Targets", [2] = {[1] = "Always face nearbies direction.",},},
 		{["en"] = "Bar", [1] = "Bar",},
 		{["en"] = "Number", [1] = "Number",},
 		{["en"] = "Defusing", [1] = "Defusing",},
