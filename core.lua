@@ -1,5 +1,5 @@
 local info = {
-    v_loc = 1.04,
+    v_loc = 1.05,
     v_onl = http.Get("https://raw.githubusercontent.com/zer420/Menu-Translator/master/version"),
     src = "https://raw.githubusercontent.com/zer420/Menu-Translator/master/core.lua",
     dir = "zerlib\\",
@@ -20,7 +20,8 @@ end; end; Updater(); --auto-updater + auto-reloader
 local db = {
     prev = 1,
     lang_name = {"English", "中文",}, --"Русский", "Français", "Español", "Suomi", "Português", "Romana", "Deutsch", "Italiano",
-    lang_checked = {false, false, false,},
+    lang_checked = {false, false,},
+    lang_outdated = {false, false,},
     ui = {[1] = {},[2] = {},[3] = {},[4] = {},[5] = {},[6] = {},[7] = {},}, --used to store og ui
     lang = {
         ["English"] = {},
@@ -75,15 +76,15 @@ local function LanguageUpdater(i)
         if info.updt_available == true then
             file.Write(curr_dir, http.Get(db.src[i])); curr_db = RunScript(curr_dir); --downloads it
         end;
-        db.lang_checked[i] = true;        
+        db.lang_checked[i] = true;
+
+        db.lang[db.lang_name[i]] = curr_db;
+        for j = 1, #db.ui do
+            if #db.ui[j] ~= #curr_db[j] then --checks if outdated
+                db.lang_outdated[i] = true;
+            end;
+        end; 
     end;
-    db.lang[db.lang_name[i]] = curr_db;
-    for j = 1, #db.ui do
-        if #db.ui[j] ~= #curr_db[j] then --checks if outdated
-            return false;
-        end;
-    end;
-    return true;
 end;
 
 local function EntryIsValid(i, j, k, type)
@@ -94,7 +95,7 @@ local function EntryIsValid(i, j, k, type)
 end; --double checks if anything is wrong
 
 local function SetLanguage(i)    
-    if LanguageUpdater(i) == true then
+    if db.lang_outdated[i] == false then
         warning:SetInvisible(true);
         for j = 1, #db.ui do -- loops thru each level of ui
             for k, obj in pairs(db.ui[j]) do -- loops thru each elements
@@ -114,7 +115,13 @@ local function SetLanguage(i)
     end;
     db.prev = i;
 end;
-SetLanguage(1);
+
+local function SetupUI()
+    for i = 1, #db.lang_name do
+        LanguageUpdater(i);
+    end;
+    SetLanguage(1);
+end; SetupUI();
 
 callbacks.Register("Draw", function()
     if (ui_select:GetValue() + 1) ~= db.prev then
@@ -125,3 +132,70 @@ end);
 callbacks.Register("Unload", function()
     SetLanguage(1);
 end);
+
+MenuTranslator = {
+    objectTranslation = {pos = {}, translated = {},},
+    newTranslation = function(object, description, ...)
+        return MenuTranslator.objectTranslation:new(object, description, ...);
+    end,
+    GetLang = function() return db.prev; end,   
+    GetReference = function(...)
+        local arg, output = {...}, {};
+        for i, ref in pairs(arg) do
+            for j = 1, #db.lang["English"] do
+                for k, obj in pairs(db.lang["English"][j]) do
+                    if obj[1] == ref then                    
+                        table.insert(output, db.lang[db.lang_name[db.prev]][j][k][1] );
+                        break;
+                    end;
+                end;
+            end;
+        end;
+        return gui.Reference(unpack(output));
+    end,
+    Refresh = function() SetLanguage(db.prev); end,
+};
+
+function MenuTranslator.objectTranslation:new(object, description, ...)
+    GetUIChildren(gui.Reference("Menu"), 0);
+    for j = 1, #db.ui do
+        for k, obj in pairs(db.ui[j]) do            
+            if obj:GetName() == object:GetName() then                
+                local tempName = obj:GetName();
+                obj:SetName("MenuTranslationCheck"); object:SetName("MenuTranslationCheck");
+                if obj:GetName() == object:GetName() then
+                    obj:SetName(tempName); object:SetName(tempName);
+
+                    table.insert(db.lang["English"][j], k, {[1] = object:GetName(), [2] = {[1] = description, [2] = {...},},});
+                    o = {};
+                    setmetatable(o, self);
+                    self.__index = self;
+                    self.pos = {j, k};
+                    self.translated = {1,};
+                    return o
+
+                end;
+                obj:SetName(tempName); object:SetName(tempName);
+            end;
+        end;    
+    end;    
+end;
+
+function MenuTranslator.objectTranslation:SetTranslation(language, name, description, ...)
+    table.insert(
+        db.lang[db.lang_name[language]][self.pos[1]],
+        self.pos[2],
+        {[1] = name, [2] = {[1] = description, [2] = {...},},}
+    );
+    table.insert(self.translated, language);
+end;
+
+function MenuTranslator.objectTranslation:Remove()
+    for __, lg in pairs(self.translated) do
+        table.remove(db.lang[db.lang_name[lg]][self.pos[1]], self.pos[2]);
+    end;
+end;
+
+function MenuTranslator.objectTranslation:Update(language, name, description, ...)
+    db.lang[db.lang_name[language]][self.pos[1]][self.pos[2]] = {[1] = name, [2] = {[1] = description, [2] = {...},},};
+end;
